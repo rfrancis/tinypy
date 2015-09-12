@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
+# vim:set ai sw=2 ts=2:
+
 import readline
 import textwrap
+import sys
 from threading import Thread
 from telnetlib import Telnet
-
-tel = None
 
 def handle_input(inf):
 	while True:
@@ -14,16 +15,11 @@ def handle_input(inf):
 			for line in textwrap.wrap(s.decode('ascii'),79,subsequent_indent=' '):
 				print(line)
 
-def do_help(args):
-	print("I cannot currently help you with "+" ".join(args))
-
-def do_connect(args):
-	global tel
-	host = args[0]
-	port = int(args[1])
-	tel = Telnet(host,port)
-	t=Thread(target=handle_input,args=(tel,))
-	t.start()
+host = sys.argv[1]
+port = int(sys.argv[2])
+tel = Telnet(host,port)
+t=Thread(target=handle_input,args=(tel,))
+t.start()
 
 while True:
 	s=input()
