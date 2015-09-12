@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import readline
+import textwrap
 from threading import Thread
 from telnetlib import Telnet
 
@@ -9,7 +10,9 @@ tel = None
 def handle_input(inf):
 	while True:
 		s=inf.read_until(b'\n',timeout=1)
-		print(s.decode('ascii'),end='')
+		if len(s) > 0:
+			for line in textwrap.wrap(s.decode('ascii'),79,subsequent_indent=' '):
+				print(line)
 
 def do_help(args):
 	print("I cannot currently help you with "+" ".join(args))
