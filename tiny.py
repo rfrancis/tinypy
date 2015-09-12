@@ -22,11 +22,15 @@ t=Thread(target=handle_input,args=(tel,))
 t.start()
 
 while True:
-	s=input()
-	if s[0] == '/':
-		a = s[1:].split()
-		exec("do_"+a[0]+"(a[1:])")
+	try:
+		s=input()
+	except KeyboardInterrupt:
+		print("!! Keyboard Interrupt ignored")
 	else:
-		if tel != None:
-			s+="\n"
-			tel.write(s.encode('ascii'))
+		if s[0] == '/':
+			a = s[1:].split()
+			exec("do_"+a[0]+"(a[1:])")
+		else:
+			if tel != None:
+				s+="\n"
+				tel.write(s.encode('ascii'))
